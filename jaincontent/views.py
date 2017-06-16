@@ -6,8 +6,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 
-from .serializers import  EmployeeSerializer, CategorySerializer, GetCategorySerializer
-from .models import Employee, Category
+from .serializers import  EmployeeSerializer, CategorySerializer, GetCategorySerializer,GetSubCategorySerializer,SubCategorySerializer
+from .models import Employee, Category, SubCategory
 from django.http import JsonResponse
 
 from datetime import datetime, date
@@ -53,9 +53,23 @@ class CategoryView(views.APIView):
         }
         return JsonResponse(res)
 
+    def get(self, request):
+        """
+        This API fetches all Categories .
+        """
+        categories  = Category.objects.filter(is_deleted=False)
+        serializer = GetCategorySerializer(categories, many=True)
+        res = {
+            'error': 0,
+            'detail': '',
+            'response': serializer.data
+        }
+        return Response(data=res, status=status.HTTP_200_OK)
+        
 
 
-class GetAllCategories(APIView):
+
+class SubCategoryView(APIView):
     """
     Get all Categories 
     """
@@ -65,15 +79,119 @@ class GetAllCategories(APIView):
         """
         This API fetches all Categories .
         """
-       	categories  = Category.objects.filter(is_deleted=False)
-       	serializer = GetCategorySerializer(categories, many=True)
-       	res = {
+        if 'category_id' in request.GET:
+            id = request.GET['category_id']
+            if id is not None and id != '':
+                id = int(id)
+                subcategories  = SubCategory.objects.filter(category_id = id, is_deleted=False)
+                serializer = GetSubCategorySerializer(subcategories, many=True)
+                res = {
+                    'error': 0,
+                    'detail': '',
+                    'response': serializer.data
+                }
+                return Response(data=res, status=status.HTTP_200_OK)
+        else:
+            res = {
+                'error': 1,
+                'detail': 'Category Id is missing',
+                'response': ""
+            }
+            return Response(data=res, status=status.HTTP_200_OK)
+
+
+    def post(self, request, format=None):
+        '''
+        Register
+        ---
+        parameters:
+            - name: employee_id
+              required: True
+              type: number
+            - name: name
+              required: True
+              type: string
+            - name: type
+              required: True
+              type: string
+            - name: logo
+              required: True
+              type: string
+        '''
+        serializer = SubCategorySerializer(data=request.data)
+     #   print (serializer.initial_data)
+        if not serializer.is_valid():
+            res = {
+                'code': 2,
+            }
+            for key, val in serializer.errors.items():
+                res['message'] = key + ": " + val[0]
+            return JsonResponse(res)
+
+        serializer.save()
+        res = {
+            'code': 0,
+            'message': 'Category Registration Successful'
+        }
+        return JsonResponse(res)
+
+class ItemView(APIView):
+    """
+    Get all Categories 
+    """
+    permission_classes = [AllowAny, ]
+
+    def get(self, request):
+        """
+        This API fetches all Categories .
+        """
+        category_id = int(request.GET.get('category_id'))
+        sub_category_id = int(request.GET.get('category_id'))
+
+        subcategories  = SubCategory.objects.filter(category_id = id, is_deleted=False)
+        serializer = GetSubCategorySerializer(subcategories, many=True)
+        res = {
             'error': 0,
             'detail': '',
             'response': serializer.data
         }
-       	return Response(data=res, status=status.HTTP_200_OK)
-       	
+        return Response(data=res, status=status.HTTP_200_OK)
+
+    def post(self, request, format=None):
+        '''
+        Register
+        ---
+        parameters:
+            - name: employee_id
+              required: True
+              type: number
+            - name: name
+              required: True
+              type: string
+            - name: type
+              required: True
+              type: string
+            - name: logo
+              required: True
+              type: string
+        '''
+        serializer = SubCategorySerializer(data=request.data)
+     #   print (serializer.initial_data)
+        if not serializer.is_valid():
+            res = {
+                'code': 2,
+            }
+            for key, val in serializer.errors.items():
+                res['message'] = key + ": " + val[0]
+            return JsonResponse(res)
+
+        serializer.save()
+        res = {
+            'code': 0,
+            'message': 'Category Registration Successful'
+        }
+        return JsonResponse(res)
+        
 
 
     

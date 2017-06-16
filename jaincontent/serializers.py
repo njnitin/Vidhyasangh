@@ -25,12 +25,27 @@ class CategorySerializer(serializers.ModelSerializer):
         category = Category.objects.create(**validated_data)
         return category
 
+
 class GetCategorySerializer(serializers.ModelSerializer):
     class Meta:
         model=Category
         fields = ['id', 'name', 'is_dashboard', 'is_side_menu','is_subcategory', 'type', 'logo']
 
+    
+
+
+class GetSubCategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model=SubCategory
+        fields = ['id', 'category_id', 'name', 'type', 'logo']
+
+
+class SubCategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model=SubCategory
+        fields = ['emp_id','category_id', 'name', 'type', 'logo']
+ 
     def create(self, validated_data):
-        category = Category.objects.create(**validated_data)
-        return category
+        subcategory = SubCategory.objects.create(**validated_data)
+        return subcategory
 

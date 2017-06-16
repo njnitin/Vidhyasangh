@@ -18,4 +18,6 @@ admin.site.register(Category, CategoryAdmin)
 
 class SubCategoryAdmin(admin.ModelAdmin):
     model = SubCategory
+    list_display = ('emp_id', 'category_id', 'name', 'type', 'logo', 'is_deleted')
+
 admin.site.register(SubCategory, SubCategoryAdmin)
