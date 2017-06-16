@@ -22,7 +22,10 @@ class SubCategoryAdmin(admin.ModelAdmin):
 
 admin.site.register(SubCategory, SubCategoryAdmin)
 
+
 class ItemAdmin(admin.ModelAdmin):
     model = Item
+    list_display = ('emp_id', 'category_id', 'sub_category_id', 'title', 'subtitle', 'description','logo','link')
+
 
 admin.site.register(Item, ItemAdmin)
