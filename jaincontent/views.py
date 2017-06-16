@@ -83,7 +83,7 @@ class SubCategoryView(APIView):
             id = request.GET['category_id']
             if id is not None and id != '':
                 id = int(id)
-                subcategories  = SubCategory.objects.filter(category_id = id, is_deleted=False)
+                subcategories  = SubCategory.objects.filter(category_id = id, is_deleted=False).order_by('order_number')
                 serializer = GetSubCategorySerializer(subcategories, many=True)
                 res = {
                     'error': 0,
