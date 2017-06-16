@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import Employee, Category, SubCategory
+from .models import Employee, Category, SubCategory, Item
 
 
 class EmployeeAdmin(admin.ModelAdmin):
@@ -21,3 +21,8 @@ class SubCategoryAdmin(admin.ModelAdmin):
     list_display = ('emp_id', 'category_id', 'name', 'type', 'logo', 'is_deleted')
 
 admin.site.register(SubCategory, SubCategoryAdmin)
+
+class ItemAdmin(admin.ModelAdmin):
+    model = Item
+
+admin.site.register(Item, ItemAdmin)

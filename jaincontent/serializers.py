@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Category, Employee, SubCategory
+from .models import Category, Employee, SubCategory, Item
 
 from django.contrib.auth.hashers import make_password
 
@@ -48,4 +48,21 @@ class SubCategorySerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         subcategory = SubCategory.objects.create(**validated_data)
         return subcategory
+
+
+class GetItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=Item
+        fields = ['id', 'title', 'subtitle', 'logo', 'link', 'description']
+
+
+
+class ItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=Item
+        fields = ['emp_id','category_id','sub_category_id', 'title', 'subtitle', 'logo','link','description']
+ 
+    def create(self, validated_data):
+        item = Item.objects.create(**validated_data)
+        return item
 

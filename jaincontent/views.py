@@ -6,8 +6,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 
-from .serializers import  EmployeeSerializer, CategorySerializer, GetCategorySerializer,GetSubCategorySerializer,SubCategorySerializer
-from .models import Employee, Category, SubCategory
+from .serializers import  EmployeeSerializer, CategorySerializer, GetCategorySerializer,GetSubCategorySerializer,SubCategorySerializer,ItemSerializer,GetItemSerializer
+from .models import Employee, Category, SubCategory, Item
 from django.http import JsonResponse
 
 from datetime import datetime, date
@@ -135,6 +135,8 @@ class SubCategoryView(APIView):
         }
         return JsonResponse(res)
 
+
+
 class ItemView(APIView):
     """
     Get all Categories 
@@ -145,17 +147,51 @@ class ItemView(APIView):
         """
         This API fetches all Categories .
         """
-        category_id = int(request.GET.get('category_id'))
-        sub_category_id = int(request.GET.get('category_id'))
+     
+        category_id = ''
+        sub_category_id = ''
+        
+        if 'category_id' in request.GET:
+            category_id = int(request.GET.get('category_id'))
+        if 'sub_category_id' in request.GET:
+            sub_category_id = int(request.GET.get('sub_category_id'))
+        if category_id != '' and sub_category_id == '':
+            items  = Item.objects.filter(category_id = category_id, is_deleted=False)
+            serializer = GetItemSerializer(items, many=True)
+            res = {
+                'error': 0,
+                'detail': '',
+                'response': serializer.data
+            }
+            return Response(data=res, status=status.HTTP_200_OK)
+        if category_id == '' and sub_category_id != '':
+            items  = Item.objects.filter(sub_category_id = sub_category_id, is_deleted=False)
+            serializer = GetItemSerializer(items, many=True)
+            res = {
+                'error': 0,
+                'detail': '',
+                'response': serializer.data
+            }
+            return Response(data=res, status=status.HTTP_200_OK)
 
-        subcategories  = SubCategory.objects.filter(category_id = id, is_deleted=False)
-        serializer = GetSubCategorySerializer(subcategories, many=True)
-        res = {
-            'error': 0,
-            'detail': '',
-            'response': serializer.data
-        }
-        return Response(data=res, status=status.HTTP_200_OK)
+        if category_id != '' and sub_category_id != '':
+            items  = Item.objects.filter(category_id = category_id, sub_category_id = sub_category_id, is_deleted=False)
+            serializer = GetItemSerializer(items, many=True)
+            res = {
+                'error': 0,
+                'detail': '',
+                'response': serializer.data
+            }
+            return Response(data=res, status=status.HTTP_200_OK)
+
+        else:
+            res = {
+                'error': 1,
+                'detail': 'Category Id or Subcategory Id is missing',
+                'response': ""
+            }
+            return Response(data=res, status=status.HTTP_200_OK)
+
 
     def post(self, request, format=None):
         '''
@@ -175,7 +211,7 @@ class ItemView(APIView):
               required: True
               type: string
         '''
-        serializer = SubCategorySerializer(data=request.data)
+        serializer = ItemSerializer(data=request.data)
      #   print (serializer.initial_data)
         if not serializer.is_valid():
             res = {
@@ -188,7 +224,7 @@ class ItemView(APIView):
         serializer.save()
         res = {
             'code': 0,
-            'message': 'Category Registration Successful'
+            'message': 'Item Registration Successful'
         }
         return JsonResponse(res)
         
