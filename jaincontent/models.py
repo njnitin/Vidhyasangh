@@ -79,6 +79,8 @@ class Category(models.Model):
 	type = models.CharField(max_length=20, choices=CATEGORY_TYPES, blank=True, null=True)
 	logo = models.CharField(max_length=254, default="")
 	is_deleted =  models.BooleanField(default=False)
+	order_number = models.IntegerField(default = 100)
+
 
 	def __str__(self):
 		return str(self.emp_id)

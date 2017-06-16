@@ -19,7 +19,7 @@ class EmployeeSerializer(serializers.ModelSerializer):
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model=Category
-        fields = ['emp_id', 'name', 'is_dashboard', 'is_side_menu','is_subcategory', 'type', 'logo']
+        fields = ['emp_id', 'name', 'is_dashboard', 'is_side_menu','is_subcategory', 'type', 'logo','order_number']
 
     def create(self, validated_data):
         category = Category.objects.create(**validated_data)
@@ -29,7 +29,7 @@ class CategorySerializer(serializers.ModelSerializer):
 class GetCategorySerializer(serializers.ModelSerializer):
     class Meta:
         model=Category
-        fields = ['id', 'name', 'is_dashboard', 'is_side_menu','is_subcategory', 'type', 'logo']
+        fields = ['id', 'name', 'is_dashboard', 'is_side_menu','is_subcategory', 'type', 'logo','order_number']
 
     
 
