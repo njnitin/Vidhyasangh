@@ -57,7 +57,7 @@ class CategoryView(views.APIView):
         """
         This API fetches all Categories .
         """
-        categories  = Category.objects.filter(is_deleted=False)
+        categories  = Category.objects.filter(is_deleted=False).order_by('order_number')
         serializer = GetCategorySerializer(categories, many=True)
         res = {
             'error': 0,
@@ -150,7 +150,7 @@ class ItemView(APIView):
      
         category_id = ''
         sub_category_id = ''
-        
+
         if 'category_id' in request.GET:
             category_id = int(request.GET.get('category_id'))
         if 'sub_category_id' in request.GET:

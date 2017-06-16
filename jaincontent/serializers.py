@@ -37,13 +37,13 @@ class GetCategorySerializer(serializers.ModelSerializer):
 class GetSubCategorySerializer(serializers.ModelSerializer):
     class Meta:
         model=SubCategory
-        fields = ['id', 'category_id', 'name', 'type', 'logo']
+        fields = ['id', 'category_id', 'name', 'type', 'logo','order_number']
 
 
 class SubCategorySerializer(serializers.ModelSerializer):
     class Meta:
         model=SubCategory
-        fields = ['emp_id','category_id', 'name', 'type', 'logo']
+        fields = ['emp_id','category_id', 'name', 'type', 'logo','order_number']
  
     def create(self, validated_data):
         subcategory = SubCategory.objects.create(**validated_data)
