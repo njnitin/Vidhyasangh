@@ -67,7 +67,8 @@ class Category(models.Model):
 	    ('list', 'list'),
 	    ('News', 'News'),
 	    ('content_list', 'content_list'),
-	    ('gallery', 'gallery')
+	    ('gallery', 'gallery'),
+	    ('video', 'video')
 	)
 	emp_id = models.ForeignKey('Employee', on_delete=models.SET_NULL, null=True)
 	created_time = models.DateField(auto_now_add=True)
@@ -89,7 +90,8 @@ class SubCategory(models.Model):
 	    ('list', 'list'),
 	    ('News', 'News'),
 	    ('content_list', 'content_list'),
-	    ('gallery', 'gallery')
+	    ('gallery', 'gallery'),
+	    ('video', 'video')
 	)
 	emp_id = models.ForeignKey('Employee', on_delete=models.SET_NULL, null=True)
 	category_id = models.ForeignKey('Category', on_delete=models.SET_NULL, null=True)
