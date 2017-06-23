@@ -12,13 +12,13 @@ admin.site.register(Employee, EmployeeAdmin)
 
 class CategoryAdmin(admin.ModelAdmin):
     model = Category
-    list_display = ('emp_id', 'name', 'is_dashboard', 'is_side_menu', 'is_subcategory', 'type', 'logo', 'is_deleted')
+    list_display = ('emp_id', 'name', 'display_name','is_dashboard', 'is_side_menu', 'is_subcategory', 'type', 'logo', 'is_deleted','order_number')
 admin.site.register(Category, CategoryAdmin)
 
 
 class SubCategoryAdmin(admin.ModelAdmin):
     model = SubCategory
-    list_display = ('emp_id', 'category_id', 'name', 'type', 'logo', 'is_deleted')
+    list_display = ('emp_id', 'category_id', 'name', 'type', 'logo', 'is_deleted','order_number')
 
 admin.site.register(SubCategory, SubCategoryAdmin)
 

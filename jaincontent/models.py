@@ -73,6 +73,7 @@ class Category(models.Model):
 	emp_id = models.ForeignKey('Employee', on_delete=models.SET_NULL, null=True)
 	created_time = models.DateField(auto_now_add=True)
 	name  = models.CharField(max_length=100)
+	display_name  = models.CharField(max_length=100, default = "")
 	is_dashboard = models.BooleanField(default=False)
 	is_side_menu = models.BooleanField(default=False)
 	is_subcategory =  models.BooleanField(default=False)
@@ -102,6 +103,7 @@ class SubCategory(models.Model):
 	type = models.CharField(max_length=20, choices=CATEGORY_TYPES, blank=True, null=True)
 	logo = models.CharField(max_length=254, default="")
 	is_deleted =  models.BooleanField(default=False)
+	order_number = models.IntegerField(default = 100)
 
 
 
