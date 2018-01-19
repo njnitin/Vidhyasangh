@@ -68,7 +68,8 @@ class Category(models.Model):
 	    ('News', 'News'),
 	    ('content_list', 'content_list'),
 	    ('gallery', 'gallery'),
-	    ('video', 'video')
+	    ('video', 'video'),
+	    ('pdf', 'pdf')
 	)
 	emp_id = models.ForeignKey('Employee', on_delete=models.SET_NULL, null=True)
 	created_time = models.DateField(auto_now_add=True)
@@ -84,7 +85,7 @@ class Category(models.Model):
 
 
 	def __str__(self):
-		return str(self.emp_id)
+		return str(self.name)
 
 
 class SubCategory(models.Model):
@@ -94,7 +95,8 @@ class SubCategory(models.Model):
 	    ('News', 'News'),
 	    ('content_list', 'content_list'),
 	    ('gallery', 'gallery'),
-	    ('video', 'video')
+	    ('video', 'video'),
+	    ('pdf', 'pdf')
 	)
 	emp_id = models.ForeignKey('Employee', on_delete=models.SET_NULL, null=True)
 	category_id = models.ForeignKey('Category', on_delete=models.SET_NULL, null=True)
@@ -104,6 +106,8 @@ class SubCategory(models.Model):
 	logo = models.CharField(max_length=254, default="")
 	is_deleted =  models.BooleanField(default=False)
 	order_number = models.IntegerField(default = 100)
+	def __str__(self):
+		return str(self.name)
 
 
 

@@ -15,6 +15,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='category',
             name='type',
-            field=models.CharField(blank=True, choices=[(b'list', b'list'), (b'News', b'News'), (b'content_list', b'content_list'), (b'gallery', b'gallery'), (b'video', b'video')], max_length=20, null=True),
+            field=models.CharField(blank=True, choices=[(b'list', b'list'), (b'News', b'News'), (b'content_list', b'content_list'), (b'gallery', b'gallery'), (b'video', b'video'), (b'pdf', b'pdf')], max_length=20, null=True),
         ),
     ]
