@@ -25,6 +25,8 @@ SECRET_KEY = '$yf^hgu65=sqj++f^%*&1n6^8n4d8u4lzsd=(n@)ohs!-w_0b)'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+# ALLOWED_HOSTS = ['localhost', '127.0.0.1','big-turtle-55.localtunnel.me']
+# ALLOWED_HOSTS = ['*']
 ALLOWED_HOSTS = []
 
 AUTH_USER_MODEL = 'jaincontent.Employee'

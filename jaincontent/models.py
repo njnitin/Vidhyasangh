@@ -71,8 +71,8 @@ class Category(models.Model):
 	    ('video', 'video'),
 	    ('pdf', 'pdf')
 	)
-	emp_id = models.ForeignKey('Employee', on_delete=models.SET_NULL, null=True)
-	created_time = models.DateField(auto_now_add=True)
+	emp_id = models.ForeignKey('Employee', on_delete=models.SET_NULL, null=True, default = 9)
+	created_time = models.DateTimeField(auto_now=True)
 	name  = models.CharField(max_length=100)
 	display_name  = models.CharField(max_length=100, default = "")
 	is_dashboard = models.BooleanField(default=False)
@@ -98,9 +98,9 @@ class SubCategory(models.Model):
 	    ('video', 'video'),
 	    ('pdf', 'pdf')
 	)
-	emp_id = models.ForeignKey('Employee', on_delete=models.SET_NULL, null=True)
+	emp_id = models.ForeignKey('Employee', on_delete=models.SET_NULL, null=True, default = 9)
 	category_id = models.ForeignKey('Category', on_delete=models.SET_NULL, null=True)
-	created_time = models.DateField(auto_now_add=True)
+	created_time = models.DateTimeField(auto_now=True)
 	name  = models.CharField(max_length=100)
 	type = models.CharField(max_length=20, choices=CATEGORY_TYPES, blank=True, null=True)
 	logo = models.CharField(max_length=254, default="")
@@ -113,14 +113,14 @@ class SubCategory(models.Model):
 
 class Item(models.Model):
 
-	emp_id = models.ForeignKey('Employee', on_delete=models.SET_NULL, null=True)
+	emp_id = models.ForeignKey('Employee', on_delete=models.SET_NULL, null=True, default = 9)
 	category_id = models.ForeignKey('Category', on_delete=models.SET_NULL, null=True)
 	sub_category_id = models.ForeignKey('SubCategory', on_delete=models.SET_NULL, null=True)
-	created_time = models.DateField(auto_now_add=True)
+	created_time = models.DateTimeField(auto_now=True)
 	title  = models.CharField(max_length=250)
 	subtitle  = models.CharField(max_length=250)
 	logo = models.CharField(max_length=254, default="")
 	link = models.CharField(max_length=254, default="")
 	description =  models.TextField(null=True, blank=True)
-	is_deleted =  models.BooleanField(default=False)
-   
+	is_deleted =  models.BooleanField(default=True)
+	order_number = models.IntegerField(default=100)
